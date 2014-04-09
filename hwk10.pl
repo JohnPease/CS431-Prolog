@@ -86,10 +86,10 @@ no_conflict(schedule(C1, R1, T1), schedule(C2, R2, T2)) :-
 
 /* Define a predicate check_conflict(S, L) that returns true iff 
  * S is not in conflict with any schedule in L */
-check_conflicts(S, []).
-check_conflicts(S, [Head|Tail]) :-
+check_conflict(S, []).
+check_conflict(S, [Head|Tail]) :-
 	no_conflict(S, Head),
-	check_conflicts(S, Tail).
+	check_conflict(S, Tail).
 
 /* legal_schedule_list(L) is true iff L is a legal list of schedules */
 legal_schedule_list([]).

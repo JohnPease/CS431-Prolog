@@ -1,3 +1,5 @@
+/* John Pease, CS431, Homework 11 */
+
 /* room(name, seat capacity, media capacity) */
 room(r1, 30, media).
 room(r2, 20, board).
@@ -49,7 +51,11 @@ end_time_list( [12, 12.5, 14, 14.5, 15, 15.5, 16, 16.5]).
  *  2. E is from the list of the legal end time
  *  3. S-E is a legal duration
  */
-legal_time(between(S, E)):-
+range(Low, Low, High).
+range(Out, Low, High):- NewLow is Low+1, range(Out, NewLow, High).
+
+legal_time(T) :-
+	between(S,E) = T,
 	start_time_list(A),
 	end_time_list(B),
 	X is E-S,
@@ -60,7 +66,15 @@ legal_time(between(S, E)):-
  *  1. between(S, E) is a legal time, 
  *  2. the capacity and media requirements of C are satisfied by R
  *  3. the duration of the class is no longer than E-S.
- */
+*/
+legal_schedule(schedule(C, R, between(S,E))) :-
+	legal_time(between(S,E)),
+	course(C, cNumPeople, cMediaReq, cTime),
+	room(R, rNumPeople, rMediaReq),
+	media_compatible(cMediaReq,rMediaReq),	
+	X is E-S,
+	cNumPeople=<rNumPeople,
+	cTime=<X.
 
 no_conflict(schedule(C1, R1, T1), schedule(C2, R2, T2)) :-
 	has_instructor(C1, I1), has_instructor(C2, I2),

@@ -81,17 +81,21 @@ excess_capacity_one(schedule(C, R, _), X) :-
 	X is RCapacity-CNumEnrolled.
 
 /* implement excess_capacity(L, X) */
-excess_capacity([], X) :- X is 0.
+excess_capacity([], X) :- write('C = '),writeln(X).
 excess_capacity([H|T], X) :-
-	/*excess_capacity_one(H, X),
-	excess_capacity(T, X).*/
-	excess_capacity(T, X+excess_capacity_one(H,X)).
+	(integer(X) -> X is X; X is 0),
+	excess_capacity_one(H, R),
+	A is X+R,
+	excess_capacity(T, A).
 
 /* implement minc(L, SofarC, Sofar, X) */
+minc(L, SofarC, Sofar, X).
 
 /* implement min_excess_capacity(L, X) */
+min_excess_capacity(L, X).
 
 /* implement best_schedule(X, C) */
+best_schedule(X, C).
 
 num_best_schedule(N) :-
 	findall(1, best_schedule(_,_), L),
